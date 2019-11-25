@@ -2,6 +2,7 @@ package com.sri.RestApi.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -37,5 +38,29 @@ public class UserDaoService {
 
 	public void addUser(Usertwo us) {
 		uslist.add(us);
+	}
+
+	public Usertwo removeUserById(int id) {
+		Iterator<Usertwo> iterator = uslist.iterator();
+		Usertwo us1 = null;
+		while (iterator.hasNext()) {
+			Usertwo us = iterator.next();
+
+			// System.out.println(us);
+			if (us.getId() == id) {
+				us1 = us;
+				System.out.println(us1 + "is the user I am going to delete");
+				boolean remove = uslist.remove(us);
+				return us1;
+			}
+		}
+
+		// TODO Auto-generated method stub
+		// Usertwo remove = uslist.remove(id);
+
+		System.out.println("is the one I am returning" + us1);
+
+		return us1;
+
 	}
 }
