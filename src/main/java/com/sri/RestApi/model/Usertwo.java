@@ -2,10 +2,16 @@ package com.sri.RestApi.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class Usertwo {
 
 	private int id;
+	@Size(min = 2, message = "name should be minimum of size 2")
 	private String name;
+	
+	@Past(message = "date should not be of past value")
 	private Date dob;
 
 	public Usertwo() {

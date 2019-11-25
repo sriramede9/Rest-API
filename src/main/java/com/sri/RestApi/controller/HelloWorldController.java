@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.xml.ws.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class HelloWorldController {
 	}
 
 	@PostMapping("user")
-	public ResponseEntity<Object> addUserbyPostMantoseestatus(@RequestBody Usertwo us) {
+	public ResponseEntity<Object> addUserbyPostMantoseestatus(@Valid @RequestBody Usertwo us) {
 		// return new Usertwo(id, "Sri", "Ram");
 		System.out.println(us);
 		int id = userDaoService.getAllUsers().size() + 1;// auto incrementing the id
