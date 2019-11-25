@@ -71,7 +71,8 @@ public class HelloWorldController {
 
 		Resource<Usertwo> resource = new Resource<>(us);
 
-		ControllerLinkBuilder linkTo = ControllerLinkBuilder.linkTo(methodOn(this.getClass()). getAllUsers());
+		ControllerLinkBuilder linkTo = ControllerLinkBuilder.
+				linkTo(methodOn(this.getClass()). getAllUsers());
 
 		resource.add(linkTo.withRel("all-users"));
 
