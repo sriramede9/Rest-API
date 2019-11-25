@@ -1,9 +1,11 @@
 package com.sri.RestApi.controller;
 
 import java.net.URI;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.validation.Valid;
 import javax.xml.ws.Response;
@@ -27,6 +29,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sri.RestApi.dao.UserDaoService;
 import com.sri.RestApi.model.Usertwo;
+import org.springframework.hateoas.*;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @Controller
 public class HelloWorldController {
@@ -49,18 +55,27 @@ public class HelloWorldController {
 
 	@GetMapping("user")
 	@ResponseBody
-	public List<Usertwo> test2() {
+	public List<Usertwo> getAllUsers() {
 		return userDaoService.getAllUsers();
 	}
 
 	@GetMapping("user/{id}")
 	@ResponseBody
-	public Usertwo test3(@PathVariable("id") int id) {
+	public Resource<Usertwo> test3(@PathVariable("id") int id) {
 		if (userDaoService.getbyId(id) == null) {
 			throw new NoSuchMessageFoundException("no such message" + id);
 		}
 
-		return userDaoService.getbyId(id);
+		// adding HATEOAS
+		Usertwo us = userDaoService.getbyId(id);
+
+		Resource<Usertwo> resource = new Resource<>(us);
+
+		ControllerLinkBuilder linkTo = ControllerLinkBuilder.linkTo(methodOn(this.getClass()). getAllUsers());
+
+		resource.add(linkTo.withRel("all-users"));
+
+		return resource;
 	}
 
 	@PostMapping("user")
@@ -76,8 +91,6 @@ public class HelloWorldController {
 		return ResponseEntity.created(uri).build();
 
 	}
-
-
 
 	@PostMapping("formresponse")
 	public ResponseEntity<Object> addUserUsingJspForm(@ModelAttribute Usertwo us) {
@@ -106,7 +119,7 @@ public class HelloWorldController {
 //		}
 
 		// ResponseEntity.
-		
+
 		System.out.println(removeUserById);
 
 		return removeUserById;

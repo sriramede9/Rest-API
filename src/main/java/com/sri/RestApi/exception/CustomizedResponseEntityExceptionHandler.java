@@ -29,27 +29,25 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
 		return new ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
 	@ExceptionHandler(NoSuchMessageFoundException.class)
-	protected ResponseEntity<Object> handleAllUserNotFoundExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-			HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleAllUserNotFoundExceptionInternal(Exception ex, Object body,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		// TODO Auto-generated method stub
-		
+
 		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
 				request.getDescription(false));
-		
+
 		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
+
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
 				ex.getBindingResult().toString());
-		
-		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+
+		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
 	}
-	
-	
-	
-	
 
 }
