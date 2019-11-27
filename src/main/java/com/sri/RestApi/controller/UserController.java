@@ -35,7 +35,7 @@ import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @Controller
-public class HelloWorldController {
+public class UserController {
 
 	@Autowired
 	UserDaoService userDaoService;
