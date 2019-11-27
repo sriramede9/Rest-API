@@ -5,12 +5,19 @@ import java.util.Date;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "read desc for more details about this entity")
 public class Usertwo {
 
 	private int id;
+	
+	@ApiModelProperty(notes = "should be of minimum 2 charactars")
 	@Size(min = 2, message = "name should be minimum of size 2")
 	private String name;
 	
+	@ApiModelProperty(notes="date should not be of future value")
 	@Past(message = "date should not be of past value")
 	private Date dob;
 
