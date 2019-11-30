@@ -66,12 +66,12 @@ public class UserDaoImpl implements UserDao {
 	public void addUser(Usertwo usertwo) {
 		// TODO Auto-generated method stub
 		
-		System.out.println("received user is"+usertwo);
+		//System.out.println("received user is"+usertwo);
 		
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Usertwo userobj=	entityManager.merge(usertwo);
+	//	Usertwo userobj=	entityManager.merge(usertwo);
 			//
 		//userobj.setId(usertwo.getId()); //for future reference
 			
