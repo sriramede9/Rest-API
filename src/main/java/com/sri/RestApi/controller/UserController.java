@@ -27,18 +27,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.sri.RestApi.dao.UserDao;
 import com.sri.RestApi.dao.UserDaoService;
 import com.sri.RestApi.model.Usertwo;
-import org.springframework.hateoas.*;
-import org.springframework.hateoas.mvc.ControllerLinkBuilder;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+//import org.springframework.hateoas.*;
+//import org.springframework.hateoas.mvc.ControllerLinkBuilder;
+//
+//
+//
+//import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @Controller
 public class UserController {
 
 	@Autowired
 	UserDaoService userDaoService;
+	
+	@Autowired
+	UserDao userDao;
 
 	@InitBinder("Usertwo")
 	public void customizeBinding(WebDataBinder binder) {
@@ -56,64 +62,95 @@ public class UserController {
 	@GetMapping("user")
 	@ResponseBody
 	public List<Usertwo> getAllUsers() {
-		return userDaoService.getAllUsers();
+		return userDao.getAllUsers();
 	}
 
+//	@GetMapping("user/{id}")
+//	@ResponseBody
+//	public Resource<Usertwo> test3(@PathVariable("id") int id) {
+//		if (userDaoService.getbyId(id) == null) {
+//			throw new NoSuchMessageFoundException("no such message" + id);
+//		}
+//
+//		// adding HATEOAS
+//		Usertwo us = userDaoService.getbyId(id);
+//
+//		Resource<Usertwo> resource = new Resource<>(us);
+//
+//		ControllerLinkBuilder linkTo = ControllerLinkBuilder.
+//				linkTo(methodOn(this.getClass()). getAllUsers());
+//
+//		resource.add(linkTo.withRel("all-users"));
+//
+//		return resource;
+//	}
+
+//	@PostMapping("user")
+//	public ResponseEntity<Object> addUserbyPostMantoseestatus(@Valid @RequestBody Usertwo us) {
+//		// return new Usertwo(id, "Sri", "Ram");
+//		//System.out.println(us);
+//	//	int id = userDaoService.getAllUsers().size() + 1;// auto incrementing the id
+//
+//		//us.setId(id);
+//		userDaoService.addUser(us);
+//		//userDao.addUser(us);
+//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(us.getId()).toUri();
+//
+//		return ResponseEntity.created(uri).build();
+//
+//	}
+
+//	@PostMapping("formresponse")
+//	public ResponseEntity<Object> addUserUsingJspForm(@ModelAttribute Usertwo us) {
+//		// return new Usertwo(id, "Sri", "Ram");
+//		System.out.println(us);
+//
+//		int id = userDaoService.getAllUsers().size() + 1;// auto incrementing the id
+//
+//		us.setId(id);
+//
+//		userDaoService.addUser(us);
+//
+//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(us.getId()).toUri();
+//
+//		return ResponseEntity.created(uri).build();
+//
+//	}
+	
+	
+	@PostMapping("/user")
+	public void addUser(@Valid @RequestBody Usertwo us) {
+		//System.out.println(us);
+		userDao.addUser(us);
+	}
+	
+	
 	@GetMapping("user/{id}")
 	@ResponseBody
-	public Resource<Usertwo> test3(@PathVariable("id") int id) {
+	public Usertwo getById(@PathVariable("id") int id) {
 		if (userDaoService.getbyId(id) == null) {
 			throw new NoSuchMessageFoundException("no such message" + id);
 		}
 
 		// adding HATEOAS
-		Usertwo us = userDaoService.getbyId(id);
+		Usertwo us = userDao.getbyId(id);
 
-		Resource<Usertwo> resource = new Resource<>(us);
+		//Resource<Usertwo> resource = new Resource<>(us);
 
-		ControllerLinkBuilder linkTo = ControllerLinkBuilder.
-				linkTo(methodOn(this.getClass()). getAllUsers());
+//		ControllerLinkBuilder linkTo = ControllerLinkBuilder.
+	//			linkTo(methodOn(this.getClass()). getAllUsers());
 
-		resource.add(linkTo.withRel("all-users"));
+		//resource.add(linkTo.withRel("all-users"));
 
-		return resource;
+		return us;
 	}
-
-	@PostMapping("user")
-	public ResponseEntity<Object> addUserbyPostMantoseestatus(@Valid @RequestBody Usertwo us) {
-		// return new Usertwo(id, "Sri", "Ram");
-		System.out.println(us);
-		int id = userDaoService.getAllUsers().size() + 1;// auto incrementing the id
-
-		us.setId(id);
-		userDaoService.addUser(us);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(us.getId()).toUri();
-
-		return ResponseEntity.created(uri).build();
-
-	}
-
-	@PostMapping("formresponse")
-	public ResponseEntity<Object> addUserUsingJspForm(@ModelAttribute Usertwo us) {
-		// return new Usertwo(id, "Sri", "Ram");
-		System.out.println(us);
-
-		int id = userDaoService.getAllUsers().size() + 1;// auto incrementing the id
-
-		us.setId(id);
-
-		userDaoService.addUser(us);
-
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(us.getId()).toUri();
-
-		return ResponseEntity.created(uri).build();
-
-	}
+	
+	
 
 	@DeleteMapping("user/{id}")
-	public Usertwo delete(@PathVariable("id") int id) {
+	public void delete(@PathVariable("id") int id) {
 
-		Usertwo removeUserById = userDaoService.removeUserById(id);
+		userDao.removeUserById(id);
 
 //		if (removeUserById == null) {
 //			throw new NoSuchMessageFoundException("no such User" + id);
@@ -121,9 +158,9 @@ public class UserController {
 
 		// ResponseEntity.
 
-		System.out.println(removeUserById);
+		//System.out.println(removeUserById);
 
-		return removeUserById;
+		//return removeUserById;
 	}
 
 }
