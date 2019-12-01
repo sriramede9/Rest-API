@@ -29,6 +29,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sri.RestApi.dao.UserDao;
 import com.sri.RestApi.dao.UserDaoService;
+import com.sri.RestApi.dao.UsertwoJPARespository;
 import com.sri.RestApi.model.Usertwo;
 //import org.springframework.hateoas.*;
 //import org.springframework.hateoas.mvc.ControllerLinkBuilder;
@@ -45,6 +46,9 @@ public class UserController {
 	
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	UsertwoJPARespository usertwoJPARespository;
 
 	@InitBinder("Usertwo")
 	public void customizeBinding(WebDataBinder binder) {
@@ -62,7 +66,11 @@ public class UserController {
 	@GetMapping("user")
 	@ResponseBody
 	public List<Usertwo> getAllUsers() {
-		return userDao.getAllUsers();
+		
+		//using JPARepository
+	return	usertwoJPARespository.findAll();
+		//return userDao.getAllUsers();
+		
 	}
 
 //	@GetMapping("user/{id}")
